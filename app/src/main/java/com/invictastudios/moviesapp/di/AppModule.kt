@@ -1,0 +1,50 @@
+package com.invictastudios.moviesapp.di
+
+import android.app.Application
+import androidx.room.Room
+import com.invictastudios.moviesapp.common.Constants
+import com.invictastudios.moviesapp.core.data.local.AppDatabase
+import com.invictastudios.moviesapp.movies.data.MoviesRepositoryImpl
+import com.invictastudios.moviesapp.movies.data.remote.MoviesApi
+import com.invictastudios.moviesapp.movies.domain.MoviesRepository
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Singleton
+
+@Module
+@InstallIn(SingletonComponent::class)
+object AppModule {
+
+    @Provides
+    @Singleton
+    fun providesFavoriteCitiesDatabase(app: Application): AppDatabase {
+        return Room.databaseBuilder(
+            app,
+            AppDatabase::class.java,
+            Constants.DATABASE_NAME
+        ).build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideWeatherApi(): MoviesApi {
+        return Retrofit.Builder()
+            .baseUrl(Constants.BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(MoviesApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideWeatherRepository(
+        database: AppDatabase,
+        api: MoviesApi
+    ): MoviesRepository {
+        return MoviesRepositoryImpl(database.favoriteMoviesDao, api)
+    }
+}

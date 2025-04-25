@@ -1,6 +1,5 @@
-package com.invictastudios.moviesapp.ui.theme
+package com.invictastudios.moviesapp.movies.presentation.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

@@ -1,4 +1,4 @@
-package com.invictastudios.moviesapp.ui.theme
+package com.invictastudios.moviesapp.movies.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
