@@ -20,7 +20,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.toRoute
 import com.invictastudios.moviesapp.common.ContentType
 import com.invictastudios.moviesapp.core.navigation.BottomNavigationBar
 import com.invictastudios.moviesapp.core.navigation.details.DetailsScreen
@@ -30,10 +29,11 @@ import com.invictastudios.moviesapp.core.presentation.util.ObserveAsEvents
 import com.invictastudios.moviesapp.core.presentation.util.toString
 import com.invictastudios.moviesapp.movies.presentation.MessageEvent
 import com.invictastudios.moviesapp.movies.presentation.MoviesViewModel
+import com.invictastudios.moviesapp.movies.presentation.details_screen.DetailsScreen
+import com.invictastudios.moviesapp.movies.presentation.favorites_screen.FavoriteMoviesScreen
 import com.invictastudios.moviesapp.movies.presentation.search_movies_screen.SearchMoviesScreen
 import com.invictastudios.moviesapp.movies.presentation.ui.theme.MoviesAppTheme
 import dagger.hilt.android.AndroidEntryPoint
-import com.invictastudios.moviesapp.movies.presentation.details_screen.DetailsScreen
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -48,6 +48,7 @@ class MainActivity : ComponentActivity() {
                 val context = LocalContext.current
                 val movieResultsState = viewModel.movieResults.collectAsStateWithLifecycle()
                 val movieDetailsState = viewModel.movieDetails.collectAsStateWithLifecycle()
+                val favoriteMoviesState = viewModel.favoriteMovies.collectAsStateWithLifecycle()
 
                 ObserveAsEvents(events = viewModel.events) { event ->
                     when (event) {
@@ -115,12 +116,22 @@ class MainActivity : ComponentActivity() {
 
                         composable<DetailsScreen> {
                             DetailsScreen(
-                                movieDetailsState = movieDetailsState.value
+                                movieDetailsState = movieDetailsState.value,
+                                onFavoriteClicked = { movieIsFavorite ->
+                                    if (movieIsFavorite)
+                                        viewModel.addFavoriteMovie()
+                                    else
+                                        viewModel.deleteFavoriteMovie()
+
+                                }
                             )
                         }
 
                         composable<FavoritesScreen> {
-                            // TODO: Add Favorites Screen
+                            viewModel.getFavoriteMovies()
+                            FavoriteMoviesScreen(favoriteMoviesState = favoriteMoviesState.value) { favMovie ->
+                                viewModel.deleteFavoriteMovieFromList(favMovie)
+                            }
                         }
 
                     }
