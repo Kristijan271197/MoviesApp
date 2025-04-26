@@ -8,5 +8,4 @@ data class FavoriteMovie(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val movieName: String,
-    val movieDescription: String
 )
