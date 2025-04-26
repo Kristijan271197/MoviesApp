@@ -21,7 +21,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesFavoriteCitiesDatabase(app: Application): AppDatabase {
+    fun providesFavoriteMoviesDatabase(app: Application): AppDatabase {
         return Room.databaseBuilder(
             app,
             AppDatabase::class.java,
