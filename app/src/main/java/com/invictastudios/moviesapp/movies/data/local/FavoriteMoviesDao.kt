@@ -10,11 +10,11 @@ import com.invictastudios.moviesapp.movies.domain.local.FavoriteMovie
 interface FavoriteMoviesDao {
 
     @Upsert
-    suspend fun upsertFavoriteMovie(favoriteCity: FavoriteMovie)
+    suspend fun upsertFavoriteMovie(favoriteMovie: FavoriteMovie)
 
     @Delete
-    suspend fun deleteFavoriteMovie(favoriteCity: FavoriteMovie)
+    suspend fun deleteFavoriteMovie(favoriteMovie: FavoriteMovie)
 
     @Query("SELECT * FROM FavoriteMovie")
-    suspend fun getFavoriteCities(): List<FavoriteMovie>
+    suspend fun getFavoriteMovies(): List<FavoriteMovie>
 }
