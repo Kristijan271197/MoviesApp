@@ -1,7 +1,6 @@
 package com.invictastudios.moviesapp.movies.data.mappers
 
 import com.invictastudios.moviesapp.common.Constants
-import com.invictastudios.moviesapp.common.HelperFunctions
 import com.invictastudios.moviesapp.movies.data.remote.dto.MovieDetailsDto
 import com.invictastudios.moviesapp.movies.data.remote.dto.MovieGenresDto
 import com.invictastudios.moviesapp.movies.data.remote.dto.MovieResultsDto

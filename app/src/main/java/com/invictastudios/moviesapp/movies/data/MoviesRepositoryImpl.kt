@@ -1,6 +1,5 @@
 package com.invictastudios.moviesapp.movies.data
 
-import android.util.Log
 import com.invictastudios.moviesapp.common.Constants
 import com.invictastudios.moviesapp.core.data.remote.safeCall
 import com.invictastudios.moviesapp.core.domain.util.NetworkError

@@ -25,7 +25,7 @@ object HelperFunctions {
             val outputFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
             val date = inputFormat.parse(inputDate)
             outputFormat.format(date!!)
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             inputDate
         }
     }
