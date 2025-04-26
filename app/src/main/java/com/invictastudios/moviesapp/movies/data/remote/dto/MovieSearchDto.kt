@@ -12,6 +12,8 @@ data class MovieResultsDto (
     var id: Int,
     @SerializedName("title")
     var title: String,
+    @SerializedName("name")
+    var name: String,
     @SerializedName("overview")
     var description: String,
     @SerializedName("poster_path")

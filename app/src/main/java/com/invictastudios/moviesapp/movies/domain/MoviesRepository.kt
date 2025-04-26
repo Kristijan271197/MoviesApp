@@ -14,7 +14,7 @@ interface MoviesRepository {
 
     suspend fun deleteFavoriteMovie(favoriteMovie: FavoriteMovie)
 
-    suspend fun searchMovieByName(movieName: String): Result<List<MovieResults>, NetworkError>
+    suspend fun searchMovieByName(movieName: String, isMovie:Boolean): Result<List<MovieResults>, NetworkError>
 
-    suspend fun getMovieDetails(id: String): Result<MovieDetails, NetworkError>
+    suspend fun getMovieDetails(id: String, isMovie:Boolean): Result<MovieDetails, NetworkError>
 }

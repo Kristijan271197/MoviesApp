@@ -22,4 +22,17 @@ interface MoviesApi {
         @Path("id") id: String
     ): Response<MovieDetailsDto>
 
+
+    @GET("3/search/tv")
+    suspend fun searchSeries(
+        @Header("Authorization") authHeader: String,
+        @Query("query") title: String,
+    ): Response<MovieSearchDto>
+
+    @GET("3/tv/{id}")
+    suspend fun seriesDetails(
+        @Header("Authorization") authHeader: String,
+        @Path("id") id: String
+    ): Response<MovieDetailsDto>
+
 }

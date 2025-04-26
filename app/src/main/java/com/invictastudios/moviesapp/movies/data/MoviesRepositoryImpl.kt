@@ -36,20 +36,33 @@ class MoviesRepositoryImpl @Inject constructor(
     }
 
 
-    override suspend fun searchMovieByName(movieName: String): Result<List<MovieResults>, NetworkError> {
+    override suspend fun searchMovieByName(
+        movieName: String,
+        isMovie: Boolean
+    ): Result<List<MovieResults>, NetworkError> {
         return safeCall<MovieSearchDto> {
-            api.searchMovies(Constants.TMDB_BEARER_TOKEN, movieName)
+            if (isMovie)
+                api.searchMovies(Constants.TMDB_BEARER_TOKEN, movieName)
+            else
+                api.searchSeries(Constants.TMDB_BEARER_TOKEN, movieName)
         }.map { movieSearchDto ->
-            Log.d("TAG", "searchMovieByName: ${movieSearchDto.results}")
             movieSearchDto.results.map { it.toMovieResults() }
         }
     }
 
-    override suspend fun getMovieDetails(id: String): Result<MovieDetails, NetworkError> {
+    override suspend fun getMovieDetails(
+        id: String,
+        isMovie: Boolean
+    ): Result<MovieDetails, NetworkError> {
         return safeCall<MovieDetailsDto> {
-            api.movieDetails(Constants.TMDB_BEARER_TOKEN, id)
+            if (isMovie)
+                api.movieDetails(Constants.TMDB_BEARER_TOKEN, id)
+            else
+                api.seriesDetails(Constants.TMDB_BEARER_TOKEN, id)
         }.map { movieDetailsDto ->
             movieDetailsDto.toMovieDetails()
         }
     }
+
+
 }

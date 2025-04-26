@@ -17,8 +17,8 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.invictastudios.moviesapp.core.navigation.favorites.Favorites
-import com.invictastudios.moviesapp.core.navigation.search_movies.SearchMovies
+import com.invictastudios.moviesapp.core.navigation.favorites.FavoritesScreen
+import com.invictastudios.moviesapp.core.navigation.search_movies.SearchMoviesScreen
 
 @Composable
 fun BottomNavigationBar(
@@ -28,13 +28,13 @@ fun BottomNavigationBar(
         listOf(
             BottomNavItem(
                 "Search Movies",
-                SearchMovies,
+                SearchMoviesScreen,
                 Icons.Default.MovieFilter,
                 Icons.Default.Movie
             ),
             BottomNavItem(
                 "Favorite Movies",
-                Favorites,
+                FavoritesScreen,
                 Icons.Default.Favorite,
                 Icons.Default.FavoriteBorder
             )
