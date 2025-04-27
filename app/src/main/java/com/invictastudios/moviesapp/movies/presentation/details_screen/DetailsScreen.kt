@@ -200,11 +200,9 @@ fun DetailsScreen(
 
                             }
                         }
-
                     }
                 }
             }
         }
     }
-
 }

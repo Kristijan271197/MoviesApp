@@ -27,7 +27,8 @@ import com.invictastudios.moviesapp.movies.domain.local.FavoriteMovie
 fun FavoriteMoviesScreen(
     modifier: Modifier = Modifier,
     favoriteMoviesState: FavoriteMoviesState,
-    deleteFavoriteMovie: (FavoriteMovie) -> Unit
+    deleteFavoriteMovie: (FavoriteMovie) -> Unit,
+    onMovieClicked: (String) -> Unit
 ) {
     val listState = rememberLazyListState()
 
@@ -41,7 +42,10 @@ fun FavoriteMoviesScreen(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 8.dp),
+                    .padding(vertical = 8.dp)
+                    .clickable {
+                        onMovieClicked(favMovie.movieName)
+                    },
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {

@@ -20,16 +20,19 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.invictastudios.moviesapp.common.ContentType
 import com.invictastudios.moviesapp.core.navigation.BottomNavigationBar
 import com.invictastudios.moviesapp.core.navigation.details.DetailsScreen
 import com.invictastudios.moviesapp.core.navigation.favorites.FavoritesScreen
+import com.invictastudios.moviesapp.core.navigation.favorites_details.FavoritesDetailsScreen
 import com.invictastudios.moviesapp.core.navigation.search_movies.SearchMoviesScreen
 import com.invictastudios.moviesapp.core.presentation.util.ObserveAsEvents
 import com.invictastudios.moviesapp.core.presentation.util.toString
 import com.invictastudios.moviesapp.movies.presentation.MessageEvent
 import com.invictastudios.moviesapp.movies.presentation.MoviesViewModel
 import com.invictastudios.moviesapp.movies.presentation.details_screen.DetailsScreen
+import com.invictastudios.moviesapp.movies.presentation.favorites_details_screen.FavoriteDetailsScreen
 import com.invictastudios.moviesapp.movies.presentation.favorites_screen.FavoriteMoviesScreen
 import com.invictastudios.moviesapp.movies.presentation.search_movies_screen.SearchMoviesScreen
 import com.invictastudios.moviesapp.movies.presentation.ui.theme.MoviesAppTheme
@@ -49,6 +52,7 @@ class MainActivity : ComponentActivity() {
                 val movieResultsState = viewModel.movieResults.collectAsStateWithLifecycle()
                 val movieDetailsState = viewModel.movieDetails.collectAsStateWithLifecycle()
                 val favoriteMoviesState = viewModel.favoriteMovies.collectAsStateWithLifecycle()
+                val favoriteDetailsState = viewModel.favoriteDetails.collectAsStateWithLifecycle()
 
                 ObserveAsEvents(events = viewModel.events) { event ->
                     when (event) {
@@ -129,8 +133,24 @@ class MainActivity : ComponentActivity() {
 
                         composable<FavoritesScreen> {
                             viewModel.getFavoriteMovies()
-                            FavoriteMoviesScreen(favoriteMoviesState = favoriteMoviesState.value) { favMovie ->
-                                viewModel.deleteFavoriteMovieFromList(favMovie)
+                            FavoriteMoviesScreen(
+                                favoriteMoviesState = favoriteMoviesState.value,
+                                deleteFavoriteMovie = { favMovie ->
+                                    viewModel.deleteFavoriteMovieFromList(favMovie)
+                                },
+                                onMovieClicked = {
+                                    navController.navigate(FavoritesDetailsScreen(it))
+                                }
+                            )
+                        }
+
+                        composable<FavoritesDetailsScreen> {
+                            val args = it.toRoute<FavoritesDetailsScreen>()
+                            viewModel.getFavoriteDetails(args.favoriteMovieName)
+                            FavoriteDetailsScreen(
+                                favoriteDetailsState = favoriteDetailsState.value
+                            ) {
+                                viewModel.loadImageFromStorage(it)
                             }
                         }
 
