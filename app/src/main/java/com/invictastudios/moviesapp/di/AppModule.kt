@@ -1,8 +1,10 @@
 package com.invictastudios.moviesapp.di
 
 import android.app.Application
+import android.content.Context
 import androidx.room.Room
 import com.invictastudios.moviesapp.common.Constants
+import com.invictastudios.moviesapp.common.SaveImageToStorage
 import com.invictastudios.moviesapp.core.data.local.AppDatabase
 import com.invictastudios.moviesapp.movies.data.MoviesRepositoryImpl
 import com.invictastudios.moviesapp.movies.data.remote.MoviesApi
@@ -10,6 +12,7 @@ import com.invictastudios.moviesapp.movies.domain.MoviesRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -21,12 +24,20 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideSaveImageToStorage(
+        @ApplicationContext context: Context,
+    ): SaveImageToStorage = SaveImageToStorage(context)
+
+    @Provides
+    @Singleton
     fun providesFavoriteMoviesDatabase(app: Application): AppDatabase {
         return Room.databaseBuilder(
             app,
             AppDatabase::class.java,
             Constants.DATABASE_NAME
-        ).build()
+        )
+            .fallbackToDestructiveMigration(true)
+            .build()
     }
 
     @Singleton
