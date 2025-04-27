@@ -163,36 +163,15 @@ class MoviesViewModel @Inject constructor(
             _favoriteDetails.update { it.copy(isLoading = true) }
             val favMovies = moviesRepository.getFavoriteMovies()
             for (item in favMovies) {
-                if (item.movieName == movieName)
+                if (item.movieName == movieName) {
                     _favoriteDetails.update { it.copy(isLoading = false, favoriteMovie = item) }
+                    break
+                }
                 else
                     _favoriteDetails.update { it.copy(isLoading = false, favoriteMovie = null) }
             }
 
         }
-    }
-
-    fun deleteFavoriteMovieFromList(favMovie: FavoriteMovie) {
-        var movieName = ""
-        movieName = if (_movieDetails.value.isMovie)
-            _movieDetails.value.movieDetails?.title ?: ""
-        else
-            _movieDetails.value.movieDetails?.name ?: ""
-        viewModelScope.launch(Dispatchers.IO) {
-            _favoriteMovies.update { it.copy(isLoading = true) }
-            moviesRepository.deleteFavoriteMovie(favMovie)
-            _favoriteMovies.update {
-                it.copy(
-                    isLoading = false,
-                    favoriteMovies = it.favoriteMovies.minus(favMovie)
-                )
-            }
-            if (favMovie.movieName == movieName) {
-                _movieDetails.update { it.copy(isFavoriteMovie = false) }
-            }
-            _events.send(MessageEvent.Database(DatabaseMessage.FAV_MOVIE_DELETED))
-        }
-
     }
 
     fun addFavoriteMovie() {
@@ -253,6 +232,29 @@ class MoviesViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun deleteFavoriteMovieFromList(favMovie: FavoriteMovie) {
+        var movieName = ""
+        movieName = if (_movieDetails.value.isMovie)
+            _movieDetails.value.movieDetails?.title ?: ""
+        else
+            _movieDetails.value.movieDetails?.name ?: ""
+        viewModelScope.launch(Dispatchers.IO) {
+            _favoriteMovies.update { it.copy(isLoading = true) }
+            moviesRepository.deleteFavoriteMovie(favMovie)
+            _favoriteMovies.update {
+                it.copy(
+                    isLoading = false,
+                    favoriteMovies = it.favoriteMovies.minus(favMovie)
+                )
+            }
+            if (favMovie.movieName == movieName) {
+                _movieDetails.update { it.copy(isFavoriteMovie = false) }
+            }
+            _events.send(MessageEvent.Database(DatabaseMessage.FAV_MOVIE_DELETED))
+        }
+
     }
 
     fun loadImageFromStorage(path: String): Bitmap? {
