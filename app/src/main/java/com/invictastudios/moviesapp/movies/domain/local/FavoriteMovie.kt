@@ -2,7 +2,6 @@ package com.invictastudios.moviesapp.movies.domain.local
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.invictastudios.moviesapp.movies.domain.remote.MovieGenres
 
 @Entity
 data class FavoriteMovie(
