@@ -55,7 +55,7 @@ fun FavoriteMovieEntity.toFavoriteMovie(): FavoriteMovie {
             voteAverage
         ),
         voteCount = formatNumber(voteCount),
-        genres = genres.joinToString(", ").dropLast(2),
+        genres = genres.joinToString(", "),
         releaseDate = formatDate(releaseDate)
     )
 }

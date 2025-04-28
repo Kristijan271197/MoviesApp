@@ -4,10 +4,13 @@ accompanistCoilVersion = "0.15.0"
 agp = "8.9.2"
 coil = "2.7.0"
 converterGson = "2.11.0"
+coreTestingVersion = "2.2.0"
 hiltAndroid = "2.55"
 hiltCompiler = "2.55"
 hiltCompilerVersion = "1.2.0"
 hiltNavigationCompose = "1.2.0"
+kotlinTestVersion = "1.9.23"
+kotlinxCoroutinesTestVersion = "1.8.1"
 ksp = "2.1.20-2.0.0"
 kotlin = "2.1.20"
 coreKtx = "1.16.0"
@@ -20,19 +23,27 @@ composeBom = "2025.04.01"
 loggingInterceptor = "4.12.0"
 materialIconsCore = "1.7.8"
 materialIconsExtended = "1.7.8"
+mockitoCoreVersion = "5.12.0"
+mockitoKotlinVersion = "5.4.0"
+mockkVersion = "1.13.12"
 navigationCompose = "2.8.9"
 okhttp = "4.12.0"
 squareupRetrofit = "2.11.0"
 paletteKtxVersion = "1.0.0"
 serialization = "1.6.3"
 roomRuntime = "2.7.1"
+turbineVersion = "1.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "coreTestingVersion" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleRuntimeKtx" }
 androidx-material-icons-core = { module = "androidx.compose.material:material-icons-core", version.ref = "materialIconsCore" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlinTestVersion" }
+kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlinTestVersion" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTestVersion" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization"}
 coil = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
@@ -55,12 +66,16 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "loggingInterceptor" }
 material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCoreVersion" }
+mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlinVersion" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockkVersion" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 squareup-retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "squareupRetrofit" }
 androidx-palette-ktx = { group = "androidx.palette", name = "palette-ktx", version.ref = "paletteKtxVersion" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbineVersion" }
 
 
 
