@@ -25,7 +25,7 @@ Installation
 - Open the project in Android Studio
 - Build and run the app on an emulator or physical device
 
-Architecture and Design Choices:
+Architecture, Design Choices and Libraries:
 
 Kotlin
 - The project is written entirely in Kotlin, using features like coroutines, sealed classes, flows, etc.
