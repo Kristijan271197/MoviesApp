@@ -1,7 +1,6 @@
 package com.invictastudios.moviesapp.movies.presentation
 
 import android.graphics.Bitmap
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.invictastudios.moviesapp.core.domain.util.DatabaseMessage

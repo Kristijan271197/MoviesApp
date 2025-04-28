@@ -37,7 +37,7 @@ fun parseNumber(number: String): Int {
 
             else -> number.toInt()
         }
-    } catch (e: Exception) {
+    } catch (_: Exception) {
         0
     }
 }

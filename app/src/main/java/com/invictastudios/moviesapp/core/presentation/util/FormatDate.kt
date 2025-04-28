@@ -20,7 +20,7 @@ fun parseDate(formattedDate: String): String {
         val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val date = inputFormat.parse(formattedDate)
         outputFormat.format(date!!)
-    } catch (e: Exception) {
+    } catch (_: Exception) {
         formattedDate
     }
 }
