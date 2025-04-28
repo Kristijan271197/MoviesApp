@@ -37,6 +37,7 @@ Single-Activity Architecture with Jetpack Compose
 - Jetpack Compose Navigation is used for screen transitions, providing type-safe navigation with a clean API.
 
 State Management in Compose
+
 The app uses Compose's state management system with:
 - State and MutableState for UI state
 - ViewModel to hold and manage UI-related data
