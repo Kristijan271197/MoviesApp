@@ -52,10 +52,6 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MoviesAppTheme {
-                val view = LocalView.current
-                val window = (view.context as Activity).window
-                window.statusBarColor = BackgroundGray.toArgb()
-
                 val context = LocalContext.current
                 val movieResultsState = viewModel.movieResults.collectAsStateWithLifecycle()
                 val movieDetailsState = viewModel.movieDetails.collectAsStateWithLifecycle()
@@ -169,4 +165,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
