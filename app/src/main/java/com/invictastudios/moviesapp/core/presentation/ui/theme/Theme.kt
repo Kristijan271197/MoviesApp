@@ -1,4 +1,4 @@
-package com.invictastudios.moviesapp.movies.presentation.ui.theme
+package com.invictastudios.moviesapp.core.presentation.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

@@ -1,4 +1,4 @@
-package com.invictastudios.moviesapp.movies.presentation.search_movies_screen.components
+package com.invictastudios.moviesapp.movies.presentation.movies_list.composables
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -14,6 +14,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuDefaults.outlinedTextFieldColors
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -27,10 +29,11 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchTextField(
     modifier: Modifier = Modifier,
-    colors: TextFieldColors,
+    colors: TextFieldColors = outlinedTextFieldColors(),
     text: String,
     onValueChange: (String) -> Unit,
     onSearch: () -> Unit
@@ -85,7 +88,7 @@ fun SearchTextField(
             ),
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Search,
-            ),
+            )
         )
     }
 }

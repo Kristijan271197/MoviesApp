@@ -1,4 +1,4 @@
-package com.invictastudios.moviesapp.movies.presentation.search_movies_screen.components
+package com.invictastudios.moviesapp.movies.presentation.movies_list.composables
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.clickable

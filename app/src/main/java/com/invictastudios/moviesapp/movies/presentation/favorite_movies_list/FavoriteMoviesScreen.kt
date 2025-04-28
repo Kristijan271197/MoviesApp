@@ -1,4 +1,4 @@
-package com.invictastudios.moviesapp.movies.presentation.favorites_screen
+package com.invictastudios.moviesapp.movies.presentation.favorite_movies_list
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -17,40 +17,50 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.invictastudios.moviesapp.core.presentation.ui.theme.BackgroundGray
 import com.invictastudios.moviesapp.movies.domain.local.FavoriteMovie
 
 @Composable
 fun FavoriteMoviesScreen(
     modifier: Modifier = Modifier,
     favoriteMoviesState: FavoriteMoviesState,
+    getFavoriteMovies: () -> Unit,
     deleteFavoriteMovie: (FavoriteMovie) -> Unit,
     onMovieClicked: (String) -> Unit
 ) {
+    getFavoriteMovies()
     val listState = rememberLazyListState()
 
     LazyColumn(
         state = listState,
         modifier = modifier
             .fillMaxSize()
+            .drawBehind {
+                drawRect(color = BackgroundGray)
+            }
             .padding(16.dp)
     ) {
-        items(favoriteMoviesState.favoriteMovies) { favMovie ->
+        items(
+            items = favoriteMoviesState.favoriteMovies,
+            key = { movie -> movie.id }
+        ) { favMovie ->
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp)
                     .clickable {
-                        onMovieClicked(favMovie.movieName)
+                        onMovieClicked(favMovie.name)
                     },
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = favMovie.movieName,
+                    text = favMovie.name,
                     fontFamily = FontFamily.SansSerif,
                     fontSize = 16.sp,
                     modifier = Modifier

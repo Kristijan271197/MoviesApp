@@ -1,8 +1,8 @@
-package com.invictastudios.moviesapp.movies.presentation.favorites_details_screen
+package com.invictastudios.moviesapp.movies.presentation.favorite_movie_details
 
 import com.invictastudios.moviesapp.movies.domain.local.FavoriteMovie
 
 data class FavoriteDetailsState(
     val isLoading: Boolean = false,
-    val favoriteMovie: FavoriteMovie? = null,
+    val favoriteMovie: FavoriteMovie? = null
 )

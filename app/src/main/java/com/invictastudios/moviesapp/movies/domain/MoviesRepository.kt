@@ -10,11 +10,14 @@ interface MoviesRepository {
 
     suspend fun getFavoriteMovies(): List<FavoriteMovie>
 
-    suspend fun upsertFavoriteMovie(favoriteMovie: FavoriteMovie)
+    suspend fun upsertFavoriteMovie(favoriteMovieEntity: FavoriteMovie)
 
-    suspend fun deleteFavoriteMovie(favoriteMovie: FavoriteMovie)
+    suspend fun deleteFavoriteMovie(favoriteMovieEntity: FavoriteMovie)
 
-    suspend fun searchMovieByName(movieName: String, isMovie:Boolean): Result<List<MovieResults>, NetworkError>
+    suspend fun searchMovieByName(
+        movieName: String,
+        isMovie: Boolean
+    ): Result<List<MovieResults>, NetworkError>
 
-    suspend fun getMovieDetails(id: String, isMovie:Boolean): Result<MovieDetails, NetworkError>
+    suspend fun getMovieDetails(id: String, isMovie: Boolean): Result<MovieDetails, NetworkError>
 }

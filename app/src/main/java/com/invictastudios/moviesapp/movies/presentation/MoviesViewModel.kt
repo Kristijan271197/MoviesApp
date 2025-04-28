@@ -1,18 +1,20 @@
 package com.invictastudios.moviesapp.movies.presentation
 
 import android.graphics.Bitmap
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.invictastudios.moviesapp.common.SaveImageToStorage
 import com.invictastudios.moviesapp.core.domain.util.DatabaseMessage
+import com.invictastudios.moviesapp.core.domain.util.MessageEvent
 import com.invictastudios.moviesapp.core.domain.util.onError
 import com.invictastudios.moviesapp.core.domain.util.onSuccess
+import com.invictastudios.moviesapp.movies.data.local.SaveImageToStorage
 import com.invictastudios.moviesapp.movies.domain.MoviesRepository
 import com.invictastudios.moviesapp.movies.domain.local.FavoriteMovie
-import com.invictastudios.moviesapp.movies.presentation.details_screen.MovieDetailsState
-import com.invictastudios.moviesapp.movies.presentation.favorites_details_screen.FavoriteDetailsState
-import com.invictastudios.moviesapp.movies.presentation.favorites_screen.FavoriteMoviesState
-import com.invictastudios.moviesapp.movies.presentation.search_movies_screen.MovieResultsState
+import com.invictastudios.moviesapp.movies.presentation.favorite_movie_details.FavoriteDetailsState
+import com.invictastudios.moviesapp.movies.presentation.favorite_movies_list.FavoriteMoviesState
+import com.invictastudios.moviesapp.movies.presentation.movie_details.MovieDetailsState
+import com.invictastudios.moviesapp.movies.presentation.movies_list.MoviesListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
@@ -32,7 +34,7 @@ class MoviesViewModel @Inject constructor(
     private val saveImageToStorage: SaveImageToStorage
 ) : ViewModel() {
 
-    private val _movieResults = MutableStateFlow(MovieResultsState())
+    private val _movieResults = MutableStateFlow(MoviesListState())
     val movieResults = _movieResults.asStateFlow()
 
     private val _movieDetails = MutableStateFlow(MovieDetailsState())
@@ -58,10 +60,11 @@ class MoviesViewModel @Inject constructor(
     fun searchMovies() {
         viewModelScope.launch(Dispatchers.IO) {
             _movieResults.update { it.copy(isLoading = true) }
+            val movieResults = _movieResults.value
 
             moviesRepository.searchMovieByName(
-                _movieResults.value.searchQuery,
-                _movieResults.value.isMovie
+                movieResults.searchQuery,
+                movieResults.isMovie
             )
                 .onSuccess { moviesList ->
                     if (moviesList.isEmpty()) {
@@ -99,18 +102,19 @@ class MoviesViewModel @Inject constructor(
     fun getMovieDetails(id: String) {
         viewModelScope.launch(Dispatchers.IO) {
             var isFavorite = false
+            val isMovie = _movieDetails.value.isMovie
             _movieDetails.update { it.copy(isLoading = true) }
 
             moviesRepository.getMovieDetails(
                 id,
-                _movieDetails.value.isMovie
+                isMovie
             )
                 .onSuccess { movieDetails ->
                     _favoriteMovies.value.favoriteMovies.forEach { favMovie ->
-                        if (_movieDetails.value.isMovie) {
-                            if (favMovie.movieName == movieDetails.title) isFavorite = true
+                        if (isMovie) {
+                            if (favMovie.name == movieDetails.title) isFavorite = true
                         } else {
-                            if (favMovie.movieName == movieDetails.name) isFavorite = true
+                            if (favMovie.name == movieDetails.name) isFavorite = true
                         }
                     }
                     _movieDetails.update {
@@ -163,11 +167,10 @@ class MoviesViewModel @Inject constructor(
             _favoriteDetails.update { it.copy(isLoading = true) }
             val favMovies = moviesRepository.getFavoriteMovies()
             for (item in favMovies) {
-                if (item.movieName == movieName) {
+                if (item.name == movieName) {
                     _favoriteDetails.update { it.copy(isLoading = false, favoriteMovie = item) }
                     break
-                }
-                else
+                } else
                     _favoriteDetails.update { it.copy(isLoading = false, favoriteMovie = null) }
             }
 
@@ -176,25 +179,30 @@ class MoviesViewModel @Inject constructor(
 
     fun addFavoriteMovie() {
         viewModelScope.launch(Dispatchers.IO) {
-            _movieDetails.value.movieDetails?.let {
-                var movieName = if (_movieDetails.value.isMovie) it.title ?: ""
-                else it.name ?: ""
+            _movieDetails.value.movieDetails?.let { movieDetails ->
+                val movieName = if (_movieDetails.value.isMovie)
+                    movieDetails.title ?: ""
+                else
+                    movieDetails.name ?: ""
 
-                var movieReleaseDate = if (_movieDetails.value.isMovie) it.releaseDate ?: ""
-                else it.firstAirDate ?: ""
+                val movieReleaseDate = if (_movieDetails.value.isMovie)
+                    movieDetails.releaseDate ?: ""
+                else
+                    movieDetails.firstAirDate ?: ""
 
-                val movieGenres = it.genres.map { genre -> genre.name }
-                val movieImageLocation =
-                    saveImageToStorage.saveToInternalStorage(movieName, it.image)
+                val movieImageLocation = saveImageToStorage.saveToInternalStorage(
+                    movieName,
+                    movieDetails.image
+                )
 
                 val favoriteMovie = FavoriteMovie(
-                    movieName = movieName,
-                    movieImageLocation = movieImageLocation ?: "",
-                    movieDescription = it.description,
-                    movieVoteAverage = it.voteAverage,
-                    movieGenres = movieGenres,
-                    movieVoteCount = it.voteCount,
-                    movieReleaseDate = movieReleaseDate
+                    name = movieName,
+                    image = movieImageLocation ?: "",
+                    description = movieDetails.description,
+                    voteAverage = movieDetails.voteAverage,
+                    genres = movieDetails.genres,
+                    voteCount = movieDetails.voteCount,
+                    releaseDate = movieReleaseDate
                 )
 
                 _favoriteMovies.update { it.copy(isLoading = true) }
@@ -212,12 +220,14 @@ class MoviesViewModel @Inject constructor(
     }
 
     fun deleteFavoriteMovie() {
-        var movieName = if (_movieDetails.value.isMovie)
-            _movieDetails.value.movieDetails?.title ?: ""
+        val movieDetails = _movieDetails.value
+        val movieName = if (movieDetails.isMovie)
+            movieDetails.movieDetails?.title ?: ""
         else
-            _movieDetails.value.movieDetails?.name ?: ""
+            movieDetails.movieDetails?.name ?: ""
+
         _favoriteMovies.value.favoriteMovies.forEach { favMovie ->
-            if (favMovie.movieName == movieName) {
+            if (favMovie.name == movieName) {
                 viewModelScope.launch(Dispatchers.IO) {
                     _favoriteMovies.update { it.copy(isLoading = true) }
                     moviesRepository.deleteFavoriteMovie(favMovie)
@@ -235,11 +245,12 @@ class MoviesViewModel @Inject constructor(
     }
 
     fun deleteFavoriteMovieFromList(favMovie: FavoriteMovie) {
-        var movieName = ""
-        movieName = if (_movieDetails.value.isMovie)
-            _movieDetails.value.movieDetails?.title ?: ""
+        val movieDetails = _movieDetails.value
+        val movieName = if (movieDetails.isMovie)
+            movieDetails.movieDetails?.title ?: ""
         else
-            _movieDetails.value.movieDetails?.name ?: ""
+            movieDetails.movieDetails?.name ?: ""
+
         viewModelScope.launch(Dispatchers.IO) {
             _favoriteMovies.update { it.copy(isLoading = true) }
             moviesRepository.deleteFavoriteMovie(favMovie)
@@ -249,12 +260,11 @@ class MoviesViewModel @Inject constructor(
                     favoriteMovies = it.favoriteMovies.minus(favMovie)
                 )
             }
-            if (favMovie.movieName == movieName) {
+            if (favMovie.name == movieName) {
                 _movieDetails.update { it.copy(isFavoriteMovie = false) }
             }
             _events.send(MessageEvent.Database(DatabaseMessage.FAV_MOVIE_DELETED))
         }
-
     }
 
     fun loadImageFromStorage(path: String): Bitmap? {

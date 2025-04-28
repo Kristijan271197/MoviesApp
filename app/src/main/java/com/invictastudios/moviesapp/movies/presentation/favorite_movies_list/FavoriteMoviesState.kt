@@ -1,4 +1,4 @@
-package com.invictastudios.moviesapp.movies.presentation.favorites_screen
+package com.invictastudios.moviesapp.movies.presentation.favorite_movies_list
 
 import com.invictastudios.moviesapp.movies.domain.local.FavoriteMovie
 

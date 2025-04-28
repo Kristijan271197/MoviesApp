@@ -10,6 +10,12 @@ import retrofit2.http.Query
 
 interface MoviesApi {
 
+    companion object {
+        const val BASE_URL = "https://api.themoviedb.org"
+        const val TMDB_BEARER_TOKEN =
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5MTI4NjkyNGVkNzEwNjhkNTFkOTRjOWJkNDIyOTgwZiIsIm5iZiI6MTYwNTg5NTc0OS43OTYsInN1YiI6IjVmYjgwNjQ1ODc1ZDFhMDAzZDQ3MWVlNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.7UxLOm2n2Qp8auG6238o7upkLOvut_6J_7ebBUavhM8"
+    }
+
     @GET("3/search/movie")
     suspend fun searchMovies(
         @Header("Authorization") authHeader: String,
@@ -22,7 +28,6 @@ interface MoviesApi {
         @Path("id") id: String
     ): Response<MovieDetailsDto>
 
-
     @GET("3/search/tv")
     suspend fun searchSeries(
         @Header("Authorization") authHeader: String,
@@ -34,5 +39,4 @@ interface MoviesApi {
         @Header("Authorization") authHeader: String,
         @Path("id") id: String
     ): Response<MovieDetailsDto>
-
 }

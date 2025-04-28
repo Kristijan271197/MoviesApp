@@ -1,4 +1,4 @@
-package com.invictastudios.moviesapp.movies.presentation.details_screen
+package com.invictastudios.moviesapp.movies.presentation.movie_details
 
 import com.invictastudios.moviesapp.movies.domain.remote.MovieDetails
 

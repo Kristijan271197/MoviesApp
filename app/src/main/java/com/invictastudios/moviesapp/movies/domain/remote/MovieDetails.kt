@@ -7,13 +7,9 @@ data class MovieDetails(
     var name: String?,
     var description: String,
     var image: String,
-    var voteAverage: Double,
-    var voteCount: Int,
-    var genres: List<MovieGenres>,
+    var voteAverage: String,
+    var voteCount: String,
+    var genres: String,
     var releaseDate: String?,
     var firstAirDate: String?
-)
-
-data class MovieGenres(
-    var name: String
 )
