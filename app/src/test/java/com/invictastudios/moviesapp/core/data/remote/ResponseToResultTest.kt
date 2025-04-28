@@ -5,6 +5,8 @@ import org.junit.Assert.*
 import org.junit.Test
 import retrofit2.Response
 import com.invictastudios.moviesapp.core.domain.util.Result
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.ResponseBody.Companion.toResponseBody
 
 class ResponseToResultTest {
 
@@ -30,10 +32,10 @@ class ResponseToResultTest {
 
     @Test
     fun `responseToResult should return correct NetworkError for HTTP codes`() {
-        val timeoutResponse = Response.error<String>(408, okhttp3.ResponseBody.create(null, ""))
-        val tooManyRequestsResponse = Response.error<String>(429, okhttp3.ResponseBody.create(null, ""))
-        val serverErrorResponse = Response.error<String>(500, okhttp3.ResponseBody.create(null, ""))
-        val unknownErrorResponse = Response.error<String>(404, okhttp3.ResponseBody.create(null, ""))
+        val timeoutResponse = Response.error<String>(408, "".toResponseBody("text/plain".toMediaType()))
+        val tooManyRequestsResponse = Response.error<String>(429, "".toResponseBody("text/plain".toMediaType()))
+        val serverErrorResponse = Response.error<String>(500, "".toResponseBody("text/plain".toMediaType()))
+        val unknownErrorResponse = Response.error<String>(404, "".toResponseBody("text/plain".toMediaType()))
 
         assertEquals(NetworkError.REQUEST_TIMEOUT, (responseToResult(timeoutResponse) as Result.Error).error)
         assertEquals(NetworkError.TOO_MANY_REQUESTS, (responseToResult(tooManyRequestsResponse) as Result.Error).error)

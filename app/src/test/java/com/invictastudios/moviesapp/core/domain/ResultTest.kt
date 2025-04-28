@@ -16,7 +16,6 @@ class ResultTest {
     fun `Result Success should hold correct data`() {
         val result: Result<String, NetworkError> = Result.Success("Movie Loaded")
 
-        assertTrue(result is Result.Success)
         assertEquals("Movie Loaded", (result as Result.Success).data)
     }
 
@@ -25,7 +24,6 @@ class ResultTest {
         val error = NetworkError.NO_INTERNET
         val result: Result<String, NetworkError> = Result.Error(error)
 
-        assertTrue(result is Result.Error)
         assertEquals(error, (result as Result.Error).error)
     }
 
