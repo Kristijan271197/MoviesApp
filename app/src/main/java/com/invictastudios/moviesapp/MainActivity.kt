@@ -1,6 +1,5 @@
 package com.invictastudios.moviesapp
 
-import android.app.Activity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -15,9 +14,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalView
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -29,7 +26,6 @@ import com.invictastudios.moviesapp.core.navigation.details.DetailsScreen
 import com.invictastudios.moviesapp.core.navigation.favorites.FavoritesScreen
 import com.invictastudios.moviesapp.core.navigation.favorites_details.FavoritesDetailsScreen
 import com.invictastudios.moviesapp.core.navigation.search_movies.SearchMoviesScreen
-import com.invictastudios.moviesapp.core.presentation.ui.theme.BackgroundGray
 import com.invictastudios.moviesapp.core.presentation.ui.theme.MoviesAppTheme
 import com.invictastudios.moviesapp.core.presentation.util.ContentType
 import com.invictastudios.moviesapp.core.presentation.util.ObserveAsEvents
