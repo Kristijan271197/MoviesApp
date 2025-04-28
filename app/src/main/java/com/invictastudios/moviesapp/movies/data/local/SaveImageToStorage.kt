@@ -1,4 +1,4 @@
-package com.invictastudios.moviesapp.common
+package com.invictastudios.moviesapp.movies.data.local
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -8,6 +8,8 @@ import android.graphics.drawable.BitmapDrawable
 import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.request.SuccessResult
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import okio.IOException
 import java.io.File
 import java.io.FileOutputStream
@@ -32,12 +34,14 @@ class SaveImageToStorage @Inject constructor(
             val file = File(directory, fileName)
 
             return try {
-                FileOutputStream(file).use { outputStream ->
-                    resizeBitmap(bitmap, 800, 800).compress(
-                        Bitmap.CompressFormat.JPEG,
-                        100,
-                        outputStream
-                    )
+                withContext(Dispatchers.IO) {
+                    FileOutputStream(file).use { outputStream ->
+                        resizeBitmap(bitmap, 800, 800).compress(
+                            Bitmap.CompressFormat.JPEG,
+                            100,
+                            outputStream
+                        )
+                    }
                 }
                 file.absolutePath
             } catch (e: IOException) {
@@ -48,7 +52,7 @@ class SaveImageToStorage @Inject constructor(
         return null
     }
 
-    fun resizeBitmap(bitmap: Bitmap, maxWidth: Int, maxHeight: Int): Bitmap {
+    private fun resizeBitmap(bitmap: Bitmap, maxWidth: Int, maxHeight: Int): Bitmap {
         val width = bitmap.width
         val height = bitmap.height
         val scaleWidth = maxWidth.toFloat() / width

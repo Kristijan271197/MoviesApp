@@ -3,11 +3,12 @@ package com.invictastudios.moviesapp.di
 import android.app.Application
 import android.content.Context
 import androidx.room.Room
-import com.invictastudios.moviesapp.common.Constants
-import com.invictastudios.moviesapp.common.SaveImageToStorage
 import com.invictastudios.moviesapp.core.data.local.AppDatabase
+import com.invictastudios.moviesapp.core.data.local.AppDatabase.Companion.DATABASE_NAME
 import com.invictastudios.moviesapp.movies.data.MoviesRepositoryImpl
+import com.invictastudios.moviesapp.movies.data.local.SaveImageToStorage
 import com.invictastudios.moviesapp.movies.data.remote.MoviesApi
+import com.invictastudios.moviesapp.movies.data.remote.MoviesApi.Companion.BASE_URL
 import com.invictastudios.moviesapp.movies.domain.MoviesRepository
 import dagger.Module
 import dagger.Provides
@@ -34,7 +35,7 @@ object AppModule {
         return Room.databaseBuilder(
             app,
             AppDatabase::class.java,
-            Constants.DATABASE_NAME
+            DATABASE_NAME
         )
             .fallbackToDestructiveMigration(true)
             .build()
@@ -44,7 +45,7 @@ object AppModule {
     @Provides
     fun provideWeatherApi(): MoviesApi {
         return Retrofit.Builder()
-            .baseUrl(Constants.BASE_URL)
+            .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(MoviesApi::class.java)

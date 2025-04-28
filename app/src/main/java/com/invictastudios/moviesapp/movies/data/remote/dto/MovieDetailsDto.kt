@@ -20,9 +20,9 @@ data class MovieDetailsDto (
     @SerializedName("genres")
     var genres: List<MovieGenresDto>,
     @SerializedName("release_date")
-    var releaseDate: String,
+    var releaseDate: String?,
     @SerializedName("first_air_date")
-    var firstAirDate: String
+    var firstAirDate: String?
 )
 
 
