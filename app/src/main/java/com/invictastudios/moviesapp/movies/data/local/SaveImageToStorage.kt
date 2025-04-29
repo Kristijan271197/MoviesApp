@@ -20,7 +20,7 @@ import javax.inject.Singleton
 class SaveImageToStorage @Inject constructor(
     private val context: Context
 ) {
-    suspend fun saveToInternalStorage(fileName: String, imageUrl: String): String? {
+    suspend fun saveImageToInternalStorage(fileName: String, imageUrl: String): String? {
         val loader = ImageLoader(context)
         val request = ImageRequest.Builder(context)
             .data(imageUrl)
