@@ -8,7 +8,7 @@ import retrofit2.Response
 import java.nio.channels.UnresolvedAddressException
 import kotlin.coroutines.coroutineContext
 
-suspend inline fun <reified T> safeCall(
+suspend inline fun <reified T> safeCall( // Safely executes a suspend network call and converts the result into a [Result] type
     execute: () -> Response<T>
 ): Result<T, NetworkError> {
     val response = try {
@@ -18,9 +18,8 @@ suspend inline fun <reified T> safeCall(
     } catch (_: SerializationException) {
         return Result.Error(NetworkError.SERIALIZATION)
     } catch (_: Exception) {
-        coroutineContext.ensureActive()
+        coroutineContext.ensureActive() // checks if the coroutine is still active after catching a generic exception, preventing work from continuing in a canceled coroutine scope
         return Result.Error(NetworkError.UNKNOWN)
     }
-
     return responseToResult(response)
 }

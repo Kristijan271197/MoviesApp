@@ -2,8 +2,8 @@ package com.invictastudios.moviesapp.core.presentation.util
 
 import java.util.Locale
 
-fun formatNumber(number: Int): String {
-    return when {
+fun formatNumber(number: Int): String { // Formats an integer into a readable string using "k"  or "M" suffixes
+    return when { // Rounds to one decimal place only when needed (1.0M -> 1M)
         number >= 1_000_000 -> {
             val result = number / 1_000_000f
             if (result % 1 == 0f)
@@ -24,7 +24,7 @@ fun formatNumber(number: Int): String {
     }
 }
 
-fun parseNumber(number: String): Int {
+fun parseNumber(number: String): Int { // Parses a compact number string formatted with "k" or "M" back into an integer
     return try {
         when {
             number.endsWith("M") -> {

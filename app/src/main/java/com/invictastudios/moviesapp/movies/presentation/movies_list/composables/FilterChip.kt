@@ -20,7 +20,7 @@ fun FilterChip(
     onClick: () -> Unit
 ) {
     val backgroundColor by animateColorAsState(
-        targetValue = if (selected) Color(0xFF6200EE) else Color.LightGray,
+        targetValue = if (selected) Color.DarkGray else Color.LightGray,
         label = "BackgroundColorAnimation"
     )
     val textColor by animateColorAsState(

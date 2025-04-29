@@ -41,12 +41,12 @@ class MoviesViewModel @Inject constructor(
 
     private val _favoriteMovies = MutableStateFlow(FavoriteMoviesState())
     val favoriteMovies = _favoriteMovies
-        .onStart {
+        .onStart {//  Calls [getFavoriteMovies] automatically when first collected via [onStart].
             getFavoriteMovies()
         }
-        .stateIn(
+        .stateIn( // Shares the latest state using [stateIn], converting it to a hot flow.
             scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000L),
+            started = SharingStarted.WhileSubscribed(5000L), // Uses [SharingStarted.WhileSubscribed] to keep the flow active briefly after un-subscription, avoiding unnecessary reloads on quick UI changes (like rotation)
             initialValue = FavoriteMoviesState()
         )
 
@@ -189,7 +189,7 @@ class MoviesViewModel @Inject constructor(
                 else
                     movieDetails.firstAirDate ?: ""
 
-                val movieImageLocation = saveImageToStorage.saveToInternalStorage(
+                val movieImageLocation = saveImageToStorage.saveImageToInternalStorage(
                     movieName,
                     movieDetails.image
                 )
